@@ -1,0 +1,11 @@
+txn_id,date,merchant,amount,currency,status,category,account_id,notes
+1,12-05-2023,Swiggy,$15.50,inr,SUCCESS,,ACC001,
+2,2023/05/13,Amazon,120.00,USD,pending,Shopping,ACC002,
+3,14-05-2023,Ola,$500.00,USD,FAILED,,ACC001,SUSPICIOUS
+4,15-05-2023,Uber,20.00,inr,success,Transport,ACC003,
+1,12-05-2023,Swiggy,$15.50,inr,SUCCESS,,ACC001,Duplicate?
+5,2023/05/16,IRCTC,150.00,usd,pending,,ACC002,
+6,17-05-2023,Netflix,15.00,USD,SUCCESS,Entertainment,ACC003,
+7,18-05-2023,Local Cafe,5.00,INR,SUCCESS,,ACC001,
+8,19-05-2023,Apple Store,2500.00,USD,SUCCESS,Shopping,ACC002,
+9,20-05-2023,Zomato,$25.00,INR,FAILED,,ACC001,
