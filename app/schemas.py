@@ -1,17 +1,19 @@
 from pydantic import BaseModel
-from typing import Optional, List
+from typing import Optional, List, Literal
 from datetime import datetime
+
+JobStatusType = Literal["pending", "processing", "completed", "failed"]
 
 class JobBase(BaseModel):
     filename: str
 
 class JobResponse(BaseModel):
     job_id: str
-    status: str
+    status: JobStatusType
 
 class JobStatusResponse(BaseModel):
     job_id: str
-    status: str
+    status: JobStatusType
     summary: Optional[dict] = None
 
 class TransactionSchema(BaseModel):
@@ -32,7 +34,7 @@ class TransactionSchema(BaseModel):
 
 class JobResultResponse(BaseModel):
     job_id: str
-    status: str
+    status: JobStatusType
     transactions: List[TransactionSchema]
     anomalies: List[TransactionSchema]
     spend_by_category: dict
@@ -40,7 +42,7 @@ class JobResultResponse(BaseModel):
 
 class JobListResponse(BaseModel):
     id: str
-    status: str
+    status: JobStatusType
     filename: str
     row_count_raw: int
     created_at: datetime
