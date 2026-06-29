@@ -2,6 +2,18 @@
 
 This is a backend service for processing CSV files of raw financial transactions asynchronously through a job queue. It cleans data, detects anomalies, and uses Gemini LLM to classify transactions and generate a narrative summary.
 
+## Architecture & Data Flow
+
+![High Level Architecture](architecture.png)
+
+1. **Client Upload**: The user uploads a CSV file to the FastAPI `POST /jobs/upload` endpoint.
+2. **Database & Queue**: The API instantly creates a Job record in PostgreSQL (status: `pending`) and enqueues a background task into Redis, returning the `job_id` to the user immediately.
+3. **Background Processing**: The Celery worker picks up the task from Redis and starts processing the CSV (changing status to `processing`).
+4. **Data Cleaning & Anomaly Detection**: The worker normalizes data, detects duplicates, and flags outliers.
+5. **LLM Integration**: The worker batches uncategorized transactions and makes an asynchronous call to the **Gemini 3.5 Flash** model (via Interactions API) for classification and to generate a narrative summary of the user's spending.
+6. **Final Persistence**: The worker saves all cleaned transactions, anomalies, and the narrative into PostgreSQL, marking the job as `completed`.
+7. **Client Polling**: The client polls the `GET /jobs/{job_id}/results` endpoint to retrieve the structured output.
+
 ## Tech Stack
 - **API Framework**: FastAPI
 - **Database**: PostgreSQL
